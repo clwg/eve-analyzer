@@ -1,6 +1,10 @@
 # eve-analyzer
 
-A suricata eve.json log parser and web interface for querying flow and dns logs.
+A suricata eve.json log parser and web interface providing;
+
+- per device data flow tracking.
+- per device DNS queries metadata
+- passive DNS database
 
 ## Parser
 
@@ -16,13 +20,9 @@ Currently a basic UI exists for querying the data.
 
 ![screenshot](https://github.com/clwg/eve-analyzer/blob/main/screenshot.png)
 
-
-
 ```bash
 go run cmd/webui/webui.go
 ```
-http://localhost:8080/
+[http://localhost:8080/](http://localhost:8080/)
 
 Wildcard searches using "*" are support for dns Qname, Rdata.
-
-
