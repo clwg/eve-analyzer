@@ -12,7 +12,11 @@ The parser will automatically create the necessary database tables and should ru
 
 ## WebUI Documentation
 
-Currently a basic UI exists for querying the data
+Currently a basic UI exists for querying the data.
+
+![screenshot](https://https://github.com/clwg/eve-analyzer/screenshot.png)
+
+
 
 ```bash
 go run cmd/webui/webui.go
