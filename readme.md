@@ -14,7 +14,7 @@ The parser will automatically create the necessary database tables and should ru
 
 Currently a basic UI exists for querying the data.
 
-![screenshot](https://https://github.com/clwg/eve-analyzer/screenshot.png)
+![screenshot](https://github.com/clwg/eve-analyzer/blob/main/screenshot.png)
 
 
 
