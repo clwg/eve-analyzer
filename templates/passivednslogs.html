@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flow Logs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Passive DNS Logs</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th>Qname</th>
+            <th>RName</th>
+            <th>RType</th>
+            <th>TTL</th>
+            <th>RData</th>
+            <th>Count</th>
+        </tr>
+        {{range .}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.FirstSeen}}</td>
+            <td>{{.LastSeen}}</td>
+            <td>{{.Qname}}</td>
+            <td>{{.RName}}</td>
+            <td>{{.RType}}</td>
+            <td>{{.TTL}}</td>
+            <td>{{.RData}}</td>
+            <td>{{.Count}}</td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+</html>

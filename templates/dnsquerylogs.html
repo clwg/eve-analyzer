@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DNS Query Logs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>DNS Query Logs</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>First Seen</th>
+            <th>Last Seen</th>
+            <th>Source IP</th>
+            <th>Destination IP</th>
+            <th>Destination Port</th>
+            <th>Qname</th>
+            <th>Count</th>
+        </tr>
+        {{range .}}
+        <tr>
+            <td>{{.ID}}</td>
+            <td>{{.FirstSeen}}</td>
+            <td>{{.LastSeen}}</td>
+            <td>{{.SrcIp}}</td>
+            <td>{{.DestIp}}</td>
+            <td>{{.DestPort}}</td>
+            <td>{{.Qname}}</td>
+            <td>{{.Count}}</td>
+        </tr>
+        {{end}}
+    </table>
+</body>
+</html>

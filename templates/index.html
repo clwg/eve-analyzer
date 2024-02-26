@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Query Endpoints</title>
+    <script src="https://unpkg.com/htmx.org"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .form-box {
+            flex-grow: 1;
+            margin: 0 10px;
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #90caf9;
+        }
+        input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            background-color: #222;
+            color: #ddd;
+        }
+        button {
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        #result {
+            background-color: #424242;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            width: 98%;
+        }
+        table {
+            width: 98%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #555;
+            color: #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #333333;
+        }
+
+        .scrollable-table-container {
+            overflow-x: auto; /* Enables horizontal scrolling for its content */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+
+        <div class="form-box">
+            <h2>Passive DNS Qname</h2>
+            <form hx-get="/passivedns" hx-target="#result">
+                <input type="text" name="qname" placeholder="example: msn.com">
+                <button type="submit">Query</button>
+            </form>
+        </div>
+
+        <div class="form-box">
+            <h2>Passive DNS RDATA</h2>
+            <form hx-get="/passivedns" hx-target="#result">
+                <input type="text" name="rdata" placeholder="example: 204.79.197.219">
+                <button type="submit">Query</button>
+            </form>
+        </div>
+
+        <div class="form-box">
+            <h2>Flow Source IP</h2>
+            <form hx-get="/flow" hx-target="#result">
+                <input type="text" name="src_ip" placeholder="example: 192.168.5.235">
+                <button type="submit">Query</button>
+            </form>
+        </div>
+
+        <div class="form-box">
+            <h2>Flow Destination IP</h2>
+            <form hx-get="/flow" hx-target="#result">
+                <input type="text" name="dest_ip" placeholder="example: 8.8.8.8">
+                <button type="submit">Query</button>
+            </form>
+        </div>
+
+        <div class="form-box">
+            <h2>Client Queries by Qname</h2>
+            <form hx-get="/dnsquery" hx-target="#result">
+                <input type="text" name="qname" placeholder="example: msn.com">
+                <button type="submit">Query</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="result">Suricata Data</div>
+</body>
+</html>

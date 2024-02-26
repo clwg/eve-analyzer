@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flow Logs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Flow Logs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Destination Port</th>
+                <th>Protocol</th>
+                <th>Bytes to Server</th>
+                <th>Bytes to Client</th>
+                <th>Packets to Server</th>
+                <th>Packets to Client</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .}}
+            <tr>
+                <td>{{.Id}}</td>
+                <td>{{.Start}}</td>
+                <td>{{.End}}</td>
+                <td>{{.SrcIp}}</td>
+                <td>{{.DestIp}}</td>
+                <td>{{.DestPort}}</td>
+                <td>{{.Proto}}</td>
+                <td>{{.BytesToserver}}</td>
+                <td>{{.BytesToclient}}</td>
+                <td>{{.PktsToserver}}</td>
+                <td>{{.PktsToclient}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</body>
+</html>
