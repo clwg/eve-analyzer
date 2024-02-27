@@ -6,6 +6,11 @@ A suricata eve.json log parser and web interface providing;
 - per device DNS queries metadata
 - passive DNS database
 
+Some key points:
+
+- properly parses out the timestamp from the eve.json file
+- uses the public suffix list to accurate extract the domain name from the DNS query
+
 ## Parser
 
 ```bash
