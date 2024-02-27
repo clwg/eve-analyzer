@@ -45,11 +45,11 @@ type SOA struct {
 type PassiveDNS struct {
 	ID        string           `json:"id"`
 	Timestamp types.CustomTime `json:"timestamp"`
-	FirstSeen types.CustomTime `json:"first_seen, omitempty"`
-	LastSeen  types.CustomTime `json:"last_seen, omitempty"`
+	FirstSeen types.CustomTime `json:"first_seen,omitempty"`
+	LastSeen  types.CustomTime `json:"last_seen,omitempty"`
 	Qname     string           `json:"qname"`
-	Domain    string           `json:"domain", omitempty`
-	Tld       string           `json:"tld", omitempty`
+	Domain    string           `json:"domain,omitempty"`
+	Tld       string           `json:"tld,omitempty"`
 	RName     string           `json:"rname"`
 	RType     string           `json:"rtype"`
 	TTL       int              `json:"ttl"`
