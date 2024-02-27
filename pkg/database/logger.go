@@ -5,9 +5,9 @@ import "github.com/clwg/eve-analyzer/pkg/model"
 func (l *PostgresLogger) PassiveDNSLog(message model.PassiveDNS) error {
 	_, err := l.db.Exec(
 		`INSERT INTO passivedns 
-			(id, first_seen, last_seen, qname, rname, rtype, ttl, rdata, count) 
+			(id, first_seen, last_seen, qname, domain, domain_suffix, rname, rtype, ttl, rdata, count) 
 		VALUES 
-			($1,$2,$3,$4,$5,$6,$7,$8,1)
+			($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,1)
 		ON CONFLICT (id) DO UPDATE SET 
 			last_seen = $3,
 			count = passivedns.count + 1;`,
@@ -15,6 +15,8 @@ func (l *PostgresLogger) PassiveDNSLog(message model.PassiveDNS) error {
 		message.Timestamp,
 		message.Timestamp,
 		message.Qname,
+		message.Domain,
+		message.DomainSuffix,
 		message.RName,
 		message.RType,
 		message.TTL,

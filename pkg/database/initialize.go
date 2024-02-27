@@ -53,6 +53,8 @@ func PostgresEventLogger() *PostgresLogger {
 			first_seen TIMESTAMP NOT NULL,
 			last_seen TIMESTAMP NOT NULL,
 			qname TEXT NOT NULL,
+			domain TEXT NOT NULL,
+			domain_suffix TEXT NOT NULL,
 			rname TEXT NOT NULL,
 			rtype TEXT NOT NULL,
 			ttl INTEGER NOT NULL,

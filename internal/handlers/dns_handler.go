@@ -56,18 +56,17 @@ func HandleDNS(data model.Event) {
 				fmt.Printf("Error parsing domain: %v\n", err)
 				return
 			}
-			//fmt.Println(qname, domain, suffix)
 
 			passiveDNS := model.PassiveDNS{
-				ID:        uuid.String(),
-				Timestamp: data.Timestamp,
-				Qname:     qname,
-				Domain:    domain,
-				Tld:       suffix,
-				RName:     strings.ToLower(answer.RRName),
-				RType:     answer.RRType,
-				TTL:       answer.TTL,
-				RData:     strings.ToLower(answer.RData),
+				ID:           uuid.String(),
+				Timestamp:    data.Timestamp,
+				Qname:        qname,
+				Domain:       domain,
+				DomainSuffix: suffix,
+				RName:        strings.ToLower(answer.RRName),
+				RType:        answer.RRType,
+				TTL:          answer.TTL,
+				RData:        strings.ToLower(answer.RData),
 			}
 
 			if err := dbLogger.PassiveDNSLog(passiveDNS); err != nil {
