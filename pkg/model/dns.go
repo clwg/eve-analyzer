@@ -48,6 +48,8 @@ type PassiveDNS struct {
 	FirstSeen types.CustomTime `json:"first_seen, omitempty"`
 	LastSeen  types.CustomTime `json:"last_seen, omitempty"`
 	Qname     string           `json:"qname"`
+	Domain    string           `json:"domain", omitempty`
+	Tld       string           `json:"tld", omitempty`
 	RName     string           `json:"rname"`
 	RType     string           `json:"rtype"`
 	TTL       int              `json:"ttl"`

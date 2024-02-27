@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/clwg/eve-analyzer/pkg/database"
+	"github.com/clwg/eve-analyzer/pkg/domainsuffix"
 	"github.com/clwg/eve-analyzer/pkg/model"
 	"github.com/clwg/eve-analyzer/utils"
 )
@@ -48,10 +49,21 @@ func HandleDNS(data model.Event) {
 				return
 			}
 
+			var qname = strings.ToLower(data.DNS.RRName)
+
+			domain, suffix, err := domainsuffix.ParseDomain(qname)
+			if err != nil {
+				fmt.Printf("Error parsing domain: %v\n", err)
+				return
+			}
+			//fmt.Println(qname, domain, suffix)
+
 			passiveDNS := model.PassiveDNS{
 				ID:        uuid.String(),
 				Timestamp: data.Timestamp,
-				Qname:     strings.ToLower(data.DNS.RRName),
+				Qname:     qname,
+				Domain:    domain,
+				Tld:       suffix,
 				RName:     strings.ToLower(answer.RRName),
 				RType:     answer.RRType,
 				TTL:       answer.TTL,
