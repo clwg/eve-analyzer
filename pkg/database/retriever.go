@@ -86,7 +86,7 @@ func (l *PostgresLogger) GetFlowLogsBySrcIp(srcIp string) ([]*model.FlowRecord, 
 
 func (l *PostgresLogger) GetDNSQueryLogsByQname(qname string) ([]*model.DNSQuery, error) {
 	rows, err := l.db.Query(
-		`SELECT id, first_seen, last_seen, src_ip, dest_ip, dest_port, qname, count 
+		`SELECT id, first_seen, last_seen, src_ip, dest_ip, dest_port, qname, domain, domain_suffix, count 
         FROM dnsquery
         WHERE qname LIKE $1`,
 		qname,
@@ -107,6 +107,8 @@ func (l *PostgresLogger) GetDNSQueryLogsByQname(qname string) ([]*model.DNSQuery
 			&record.DestIp,
 			&record.DestPort,
 			&record.Qname,
+			&record.Domain,
+			&record.DomainSuffix,
 			&record.Count,
 		)
 		if err != nil {
@@ -124,7 +126,7 @@ func (l *PostgresLogger) GetDNSQueryLogsByQname(qname string) ([]*model.DNSQuery
 
 func (l *PostgresLogger) GetPassiveDNSLogsByQname(qname string) ([]*model.PassiveDNS, error) {
 	rows, err := l.db.Query(
-		`SELECT id, first_seen, last_seen, qname, rname, rtype, ttl, rdata, count 
+		`SELECT id, first_seen, last_seen, qname, domain, domain_suffix, rname, rtype, ttl, rdata, count 
         FROM passivedns
         WHERE qname LIKE $1`,
 		qname,
@@ -142,6 +144,8 @@ func (l *PostgresLogger) GetPassiveDNSLogsByQname(qname string) ([]*model.Passiv
 			&record.FirstSeen,
 			&record.LastSeen,
 			&record.Qname,
+			&record.Domain,
+			&record.DomainSuffix,
 			&record.RName,
 			&record.RType,
 			&record.TTL,
@@ -163,7 +167,7 @@ func (l *PostgresLogger) GetPassiveDNSLogsByQname(qname string) ([]*model.Passiv
 
 func (l *PostgresLogger) GetPassiveDNSLogsByRdata(rdata string) ([]*model.PassiveDNS, error) {
 	rows, err := l.db.Query(
-		`SELECT id, first_seen, last_seen, qname, rname, rtype, ttl, rdata, count 
+		`SELECT id, first_seen, last_seen, qname,  domain, domain_suffix, rname, rtype, ttl, rdata, count 
         FROM passivedns
         WHERE rdata LIKE $1`,
 		rdata,
@@ -181,6 +185,8 @@ func (l *PostgresLogger) GetPassiveDNSLogsByRdata(rdata string) ([]*model.Passiv
 			&record.FirstSeen,
 			&record.LastSeen,
 			&record.Qname,
+			&record.Domain,
+			&record.DomainSuffix,
 			&record.RName,
 			&record.RType,
 			&record.TTL,

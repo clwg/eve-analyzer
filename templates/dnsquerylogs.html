@@ -28,6 +28,8 @@
             <th>Destination IP</th>
             <th>Destination Port</th>
             <th>Qname</th>
+            <th>Domain</th>
+            <th>Domain Suffix</th>
             <th>Count</th>
         </tr>
         {{range .}}
@@ -39,6 +41,8 @@
             <td>{{.DestIp}}</td>
             <td>{{.DestPort}}</td>
             <td>{{.Qname}}</td>
+            <td>{{.Domain}}</td>
+            <td>{{.DomainSuffix}}</td>
             <td>{{.Count}}</td>
         </tr>
         {{end}}

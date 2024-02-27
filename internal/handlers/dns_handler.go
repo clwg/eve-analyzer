@@ -24,13 +24,23 @@ func HandleDNS(data model.Event) {
 			return
 		}
 
+		var qname = strings.ToLower(data.DNS.RRName)
+
+		domain, suffix, err := domainsuffix.ParseDomain(qname)
+		if err != nil {
+			fmt.Printf("Error parsing domain: %v\n", err)
+			return
+		}
+
 		dnsQuery := model.DNSQuery{
-			ID:        uuid.String(),
-			Timestamp: data.Timestamp,
-			SrcIp:     data.SrcIP,
-			DestIp:    data.DestIP,
-			DestPort:  data.DestPort,
-			Qname:     strings.ToLower(data.DNS.RRName),
+			ID:           uuid.String(),
+			Timestamp:    data.Timestamp,
+			SrcIp:        data.SrcIP,
+			DestIp:       data.DestIP,
+			DestPort:     data.DestPort,
+			Qname:        qname,
+			Domain:       domain,
+			DomainSuffix: suffix,
 		}
 
 		if err := dbLogger.DNSQueryLog(dnsQuery); err != nil {

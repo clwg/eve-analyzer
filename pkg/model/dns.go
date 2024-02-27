@@ -58,13 +58,15 @@ type PassiveDNS struct {
 }
 
 type DNSQuery struct {
-	ID        string           `json:"id"`
-	Timestamp types.CustomTime `json:"timestamp"`
-	FirstSeen types.CustomTime `json:"first_seen"`
-	LastSeen  types.CustomTime `json:"last_seen"`
-	SrcIp     string           `json:"src_ip"`
-	DestIp    string           `json:"dest_ip"`
-	DestPort  int              `json:"dest_port"`
-	Qname     string           `json:"qname"`
-	Count     int              `json:"count,omitempty"`
+	ID           string           `json:"id"`
+	Timestamp    types.CustomTime `json:"timestamp"`
+	FirstSeen    types.CustomTime `json:"first_seen"`
+	LastSeen     types.CustomTime `json:"last_seen"`
+	SrcIp        string           `json:"src_ip"`
+	DestIp       string           `json:"dest_ip"`
+	DestPort     int              `json:"dest_port"`
+	Qname        string           `json:"qname"`
+	Domain       string           `json:"domain,omitempty"`
+	DomainSuffix string           `json:"domain_suffix,omitempty"`
+	Count        int              `json:"count,omitempty"`
 }

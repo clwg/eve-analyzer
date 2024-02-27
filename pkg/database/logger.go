@@ -28,9 +28,9 @@ func (l *PostgresLogger) PassiveDNSLog(message model.PassiveDNS) error {
 func (l *PostgresLogger) DNSQueryLog(message model.DNSQuery) error {
 	_, err := l.db.Exec(
 		`INSERT INTO dnsquery 
-            (id, first_seen, last_seen, src_ip, dest_ip, dest_port, qname, count ) 
+            (id, first_seen, last_seen, src_ip, dest_ip, dest_port, qname, domain, domain_suffix, count ) 
         VALUES 
-            ($1,$2,$3,$4,$5,$6,$7,1)
+            ($1,$2,$3,$4,$5,$6,$7,$8,$9,1)
         ON CONFLICT (id) DO UPDATE SET 
             first_seen = LEAST(dnsquery.first_seen, EXCLUDED.first_seen),
             last_seen = GREATEST(dnsquery.last_seen, EXCLUDED.last_seen),
@@ -42,6 +42,8 @@ func (l *PostgresLogger) DNSQueryLog(message model.DNSQuery) error {
 		message.DestIp,
 		message.DestPort,
 		message.Qname,
+		message.Domain,
+		message.DomainSuffix,
 	)
 	return err
 }

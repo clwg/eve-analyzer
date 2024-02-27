@@ -73,6 +73,8 @@ func PostgresEventLogger() *PostgresLogger {
 			dest_ip INET NOT NULL,
 			dest_port INTEGER NOT NULL,
 			qname TEXT NOT NULL,
+			domain TEXT NOT NULL,
+			domain_suffix TEXT NOT NULL,			
 			count BIGINT NOT NULL
 		);`)
 		if err != nil {
