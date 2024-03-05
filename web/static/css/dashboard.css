@@ -104,3 +104,10 @@ body {
     max-height: 800px; /* Adjust this value to your preference */
     overflow-y: auto; /* Enables vertical scrolling */
   }
+
+  /* Button */
+  .custom-large-btn {
+    padding: 1.5rem 1.5rem; /* Increase padding for a larger button */
+    font-size: 1.25rem; /* Increase font size for better visibility */
+    width: 100%; /* Make the button expand to the width of its container */
+  }

@@ -15,9 +15,9 @@ import (
 
 var templates = template.Must(template.ParseFiles(
 	"web/templates/index.html",
-	"templates/flowlogs.html",
+	"web/templates/flowlogs.html",
 	"web/templates/dnsquerylogs.html",
-	"templates/passivednslogs.html",
+	"web/templates/passivednslogs.html",
 ))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, data interface{}) {
@@ -42,15 +42,95 @@ func handleDNSQueryLogsByQname(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	query := strings.Replace(qname, "%", "*", -1)
+
 	data := struct {
-		Qname      string
+		Query      string
 		DNSQueries interface{}
 	}{
-		Qname:      qname,
+		Query:      query,
 		DNSQueries: dnsQueries,
 	}
 
 	renderTemplate(w, "dnsquerylogs.html", data)
+}
+
+func handlePassiveDNS(w http.ResponseWriter, r *http.Request) {
+	qname := r.URL.Query().Get("qname")
+	rdata := r.URL.Query().Get("rdata")
+
+	db := database.PostgresEventLogger()
+	var records interface{}
+	var err error
+
+	qname = strings.Replace(qname, "*", "%", -1)
+	rdata = strings.Replace(rdata, "*", "%", -1)
+
+	// Handle qname and rdata within the same route
+	if qname != "" {
+		records, err = db.GetPassiveDNSLogsByQname(qname)
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else if rdata != "" {
+		records, err = db.GetPassiveDNSLogsByRdata(rdata)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	query := strings.Replace(qname, "%", "*", -1)
+
+	data := struct {
+		Query   string
+		Records interface{}
+	}{
+		Query:   query,
+		Records: records,
+	}
+
+	renderTemplate(w, "passivednslogs.html", data)
+}
+
+func handleFlow(w http.ResponseWriter, r *http.Request) {
+	ip := r.URL.Query().Get("ip")
+	destIP := r.URL.Query().Get("dest_ip")
+	srcIP := r.URL.Query().Get("src_ip")
+
+	db := database.PostgresEventLogger()
+	var flowLogs interface{}
+	var err error
+	var query string
+
+	// Handle dest_ip and src_ip within the same route
+	if destIP != "" || ip != "" { // Prioritize dest_ip if both are provided
+		flowLogs, err = db.GetFlowLogsByDestIp(destIP)
+		query = destIP
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else if srcIP != "" {
+		flowLogs, err = db.GetFlowLogsBySrcIp(srcIP)
+		query = srcIP
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	data := struct {
+		Query    string
+		FlowLogs interface{}
+	}{
+		Query:    query,
+		FlowLogs: flowLogs,
+	}
+
+	renderTemplate(w, "flowlogs.html", data)
 }
 
 func main() {
@@ -77,6 +157,8 @@ func main() {
 	// Handle index
 	r.HandleFunc("/", handleIndex)
 	r.HandleFunc("/dnsquery", handleDNSQueryLogsByQname)
+	r.HandleFunc("/passivedns", handlePassiveDNS)
+	r.HandleFunc("/flow", handleFlow)
 
 	srv := &http.Server{
 		Handler:      r,

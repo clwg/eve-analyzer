@@ -128,7 +128,8 @@ func (l *PostgresLogger) GetPassiveDNSLogsByQname(qname string) ([]*model.Passiv
 	rows, err := l.db.Query(
 		`SELECT id, first_seen, last_seen, qname, domain, domain_suffix, rname, rtype, ttl, rdata, count 
         FROM passivedns
-        WHERE qname LIKE $1`,
+        WHERE qname LIKE $1
+		LIMIT 5000`,
 		qname,
 	)
 	if err != nil {
@@ -169,7 +170,8 @@ func (l *PostgresLogger) GetPassiveDNSLogsByRdata(rdata string) ([]*model.Passiv
 	rows, err := l.db.Query(
 		`SELECT id, first_seen, last_seen, qname,  domain, domain_suffix, rname, rtype, ttl, rdata, count 
         FROM passivedns
-        WHERE rdata LIKE $1`,
+        WHERE rdata LIKE $1
+		LIMIT 5000`,
 		rdata,
 	)
 	if err != nil {
