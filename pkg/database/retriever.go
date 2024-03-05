@@ -6,7 +6,8 @@ func (l *PostgresLogger) GetFlowLogsByDestIp(destIp string) ([]*model.FlowRecord
 	rows, err := l.db.Query(
 		`SELECT id, first_seen, last_seen, src_ip, dest_ip, dest_port, proto, bytes_to_server, bytes_to_client, pkts_to_server, pkts_to_client 
         FROM flow
-        WHERE dest_ip = $1`,
+        WHERE dest_ip = $1
+		LIMIT 5000`,
 		destIp,
 	)
 	if err != nil {
@@ -47,7 +48,8 @@ func (l *PostgresLogger) GetFlowLogsBySrcIp(srcIp string) ([]*model.FlowRecord, 
 	rows, err := l.db.Query(
 		`SELECT id, first_seen, last_seen, src_ip, dest_ip, dest_port, proto, bytes_to_server, bytes_to_client, pkts_to_server, pkts_to_client 
         FROM flow
-        WHERE src_ip = $1`,
+        WHERE src_ip = $1
+		LIMIT 5000`,
 		srcIp,
 	)
 	if err != nil {

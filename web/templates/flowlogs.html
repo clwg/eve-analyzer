@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>DNS Query Logs</title>
+    <title>Network Flow</title>
 </head>
 <body>
     
 
-    <h5>DNS Query Logs: {{.Query}}</h5>
-
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <!-- First form in the first half of the container -->
-            <div class="col-md-6">
-                <form hx-get="/dnsquery" hx-target="#content1" hx-target>
-                    <input type="text" name="qname" placeholder="example: msn.com">
+            <h5>Network Flow</h5>
+            <p>{{.Query}}</p>
+        </div> 
+        <div class="row">
+            <div class="col-md-3">
+                <form hx-get="/flow" hx-target="#content1" hx-target>
+                    <label for="src_ip" class="form-label">Source IP</label>
+                    <input type="text" name="src_ip" placeholder="example: 192.168.1.10">
                 <button type="submit">Query</button>
                 </form>
             </div>
-            <!-- Second form in the second half of the container -->
-            <div class="col-md-6">
-                <form hx-get="/dnsquery" hx-target="#content1" hx-target>
-                    <input type="text" name="qname" placeholder="example: msn.com">
+
+            <div class="col-md-3">
+                <form hx-get="/flow" hx-target="#content1" hx-target>
+                    <label for="dest_ip" class="form-label">Destination IP</label>
+                    <input type="text" name="dest_ip" placeholder="example: 8.8.8.8">
                 <button type="submit">Query</button>
                 </form>
             </div>
         </div>
-    </div>
-
     
     <!-- Target Div for Content Swapping -->
     <div id="table-responsive">

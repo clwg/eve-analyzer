@@ -4,64 +4,58 @@
     <title>DNS Query Logs</title>
 </head>
 <body>
-    
-
-    <h5>DNS Query Logs: {{.Query}}</h5>
-
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <!-- First form in the first half of the container -->
-            <div class="col-md-6">
-                <form hx-get="/dnsquery" hx-target="#content1" hx-target>
+            <h5>DNS Query Logs</h5>
+            <p>{{.Query}}</p>
+        </div> 
+        <div class="row">
+            <div class="col-md-2">
+                <form hx-get="/dnquery" hx-target="#content1" hx-target>
+                    <label for="qname" class="form-label">Query</label>
                     <input type="text" name="qname" placeholder="example: msn.com">
                 <button type="submit">Query</button>
                 </form>
             </div>
-            <!-- Second form in the second half of the container -->
-            <div class="col-md-6">
-                <form hx-get="/dnsquery" hx-target="#content1" hx-target>
-                    <input type="text" name="qname" placeholder="example: msn.com">
-                <button type="submit">Query</button>
-                </form>
+
+    
+            <div class="row">
+                <div id="table-responsive">
+                    <table class="table table-striped table-sm sortable">
+                        <thead>
+                            <tr>
+                                <th>Count</th>
+                                <th>First Seen</th>
+                                <th>Last Seen</th>
+                                <th>Src IP</th>
+                                <th>Dest IP</th>
+                                <th>Dest Port</th>
+                                <th>Qname</th>
+                                <th>Domain</th>
+                                <th>Domain Suffix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .DNSQueries}}
+                            <tr>
+                                <td>{{.Count}}</td>
+                                <td>{{.FirstSeen}}</td>
+                                <td>{{.LastSeen}}</td>
+                                <td>{{.SrcIp}}</td>
+                                <td>{{.DestIp}}</td>
+                                <td>{{.DestPort}}</td>
+                                <td>{{.Qname}}</td>
+                                <td>{{.Domain}}</td>
+                                <td>{{.DomainSuffix}}</td>
+                            </tr>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div> 
             </div>
         </div>
     </div>
 
-    
-    <!-- Target Div for Content Swapping -->
-    <div id="table-responsive">
-        <table class="table table-striped table-sm sortable">
-            <thead>
-            <tr>
-                <th>Count</th>
-                <th>First Seen</th>
-                <th>Last Seen</th>
-                <th>Src IP</th>
-                <th>Dest IP</th>
-                <th>Dest Port</th>
-                <th>Qname</th>
-                <th>Domain</th>
-                <th>Domain Suffix</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .DNSQueries}}
-            <tr>
-                <td>{{.Count}}</td>
-                <td>{{.FirstSeen}}</td>
-                <td>{{.LastSeen}}</td>
-                <td>{{.SrcIp}}</td>
-                <td>{{.DestIp}}</td>
-                <td>{{.DestPort}}</td>
-                <td>{{.Qname}}</td>
-                <td>{{.Domain}}</td>
-                <td>{{.DomainSuffix}}</td>
-            </tr>
-            {{end}}
-        </tbody>
-        </table>
-    </div> 
-</div>
 <script src="/static/js/sorttable.js"></script>
 
 </body>
