@@ -110,6 +110,7 @@ func handleFlow(w http.ResponseWriter, r *http.Request) {
 		query = destIP
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			fmt.Println(err)
 			return
 		}
 	} else if srcIP != "" {
@@ -117,6 +118,8 @@ func handleFlow(w http.ResponseWriter, r *http.Request) {
 		query = srcIP
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			fmt.Println(err)
+
 			return
 		}
 	}

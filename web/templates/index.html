@@ -28,12 +28,15 @@
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-2 col-lg-1 me-0 px-3" href="#">Eve Analyzer</a>
+
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </header>
 
         <div class="container-fluid">
+            <div id="errormessages"></div>
+
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-2 col-lg-1 d-md-block bg-light sidebar collapse">
                     <div class="position-sticky pt-3">
@@ -73,8 +76,48 @@
             </div>
         </div>
 
+
+         
+        <style>
+            #errormessagealert {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%,-50%);
+              -ms-transform: translate(-50%,-50%);
+              display: none; /* Hidden by default */
+              background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+              z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+              max-width: 40%; /* Maximum width */
+              max-height: 50%; /* Maximum height */
+              overflow: auto; /* Add scrollbars if the content overflows */
+            }
+         </style>  
+
         <script src="https://unpkg.com/htmx.org"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="/static/js/sorttable.js"></script>
+
+        <script>
+            htmx.on("htmx:responseError", function(evt) {
+              var errdiv = document.getElementById("errormessages");
+              errdiv.innerHTML = `
+                 <div id="errormessagealert" class="container mt-3 mb-3 alert alert-danger" role="alert">
+                     <h6>Request Error: ` + evt.detail.xhr.status + `
+                         <span style="float:right;"><a onclick="errormessagealert_off()">Close [X]</a></span>
+                     </h6>
+                     <code>` + evt.detail.xhr.responseText + `</code>
+                 </div>`;
+              errormessagealert_on();
+            });
+         
+           function errormessagealert_on() {
+             document.getElementById("errormessagealert").style.display = "block";
+           }
+         
+           function errormessagealert_off() {
+             document.getElementById("errormessagealert").style.display = "none";
+           }
+         </script>
     </body>
 </html>
